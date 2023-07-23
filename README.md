@@ -2,41 +2,23 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
-[travis-image]: https://api.travis-ci.org/nestjs/nest.svg?branch=master
-[travis-url]: https://travis-ci.org/nestjs/nest
-[linux-image]: https://img.shields.io/travis/nestjs/nest/master.svg?label=linux
-[linux-url]: https://travis-ci.org/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/dm/@nestjs/core.svg" alt="NPM Downloads" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://api.travis-ci.org/nestjs/nest.svg?branch=master" alt="Travis" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://img.shields.io/travis/nestjs/nest/master.svg?label=linux" alt="Linux" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#5" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec"><img src="https://img.shields.io/badge/Donate-PayPal-dc3d53.svg"/></a>
-  <a href="https://twitter.com/nestframework"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+<p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
 
 ## Description
 
 [Apache Pulsar](https://pulsar.apache.org) module for [Nest](https://nestjs.com).
 
+Based on https://www.npmjs.com/package/nest-pulsar with dependency updates and small improvements.
+
 ## Installation
 
 ```bash
-$ npm install --save nest-pulsar pulsar-client
+$ npm i @dev5c32373043/nestjs-pulsar
 ```
 
 > **Note**
 >
-> Pulsar Node.js client library is based on the C++ client library. You must install the Pulsar C++ client library before installing a Node.js client. For more details, see [pulsar-client-node on GitHub](https://github.com/apache/pulsar-client-node) or [The Pulsar Node.js client dedicated page](https://pulsar.apache.org/docs/2.11.x/client-libraries-node) on [Apache Pulsar documentation](https://pulsar.apache.org/docs/2.11.x).
+> Pulsar Node.js client library is based on the C++ client library. You must install the Pulsar C++ client library before installing a Node.js client. For more details, see [pulsar-client-node on GitHub](https://github.com/apache/pulsar-client-node) or [The Pulsar Node.js client dedicated page](https://pulsar.apache.org/docs/3.0.x/client-libraries-node/) on [Apache Pulsar documentation](https://pulsar.apache.org/docs/3.0.x/).
 
 ## Getting started
 
@@ -44,7 +26,7 @@ Once the installation process (npm install) is complete, we can import the `Puls
 
 ```ts
 import { Module } from '@nestjs/common';
-import { PulsarModule } from 'nest-pulsar';
+import { PulsarModule } from '@dev5c32373043/nestjs-pulsar';
 
 @Module({
   imports: [
@@ -56,7 +38,7 @@ import { PulsarModule } from 'nest-pulsar';
 export class AppModule {}
 ```
 
-The `forRoot()` method supports all the configuration properties exposed by the Client class constructor from the `pulsar-client` package.
+The `forRoot()` method supports all the configuration properties exposed by the Client class constructor from the [`pulsar-client`](https://www.npmjs.com/package/pulsar-client) package.
 
 > **Note**
 >
@@ -64,24 +46,24 @@ The `forRoot()` method supports all the configuration properties exposed by the 
 
 Next, let's look at another module, let's say the `UsersModule`.
 
-Once the pulsar Client configured. You can inject the needed `Producer`, `Consumer` and/or `Reader` using the `forFeature()` method:
+Once the pulsar Client configured. You can inject the needed `Producer`, `Consumer`, `Reader` using the `forFeature()` method:
 
 ```ts
 import { Module } from '@nestjs/common';
-import { PulsarModule } from 'nest-pulsar';
+import { PulsarModule, MessageId } from '@dev5c32373043/nestjs-pulsar';
 
 @Module({
   imports: [
-    PulsarModule.forFeature('producer', 'myProducer', {
-      topic: 'myTopic',
+    PulsarModule.forFeature('producer', 'my-producer', {
+      topic: 'my-topic',
     }),
-    PulsarModule.forFeature('consumer', 'myConsumer', {
-      subscription: 'mySubscription',
-      topic: 'myTopic',
+    PulsarModule.forFeature('consumer', 'my-consumer', {
+      topic: 'my-topic',
+      subscription: 'my-sub',
     }),
-    PulsarModule.forFeature('reader', 'myReader', {
-      topic: 'myTopic',
-      startMessageId: MessageId.latest(),
+    PulsarModule.forFeature('reader', 'my-reader', {
+      topic: 'my-topic',
+      startMessageId: MessageId.earliest(),
     }),
   ],
 })
@@ -90,7 +72,7 @@ export class UsersModule {}
 
 > **Warning**
 >
-> Producer, consumer or reader name (2nd param) is mandatory. Please note that you shouldn't have multiple producers, consumers or readers with the same name, otherwise they will get overridden.
+> Producer, consumer, reader name (2nd param) is mandatory. Please note that you shouldn't have multiple producers, consumers or readers with the same name, otherwise they will get overridden.
 
 The `forFeature()` method third param supports all the configuration properties exposed by the following Pulsar `Client` factory methods:
 
@@ -102,24 +84,38 @@ This module uses the `forFeature()` method to define which features (producer, c
 
 ```ts
 import { Injectable } from '@nestjs/common';
-import { InjectPulsar } from 'nest-pulsar';
-import { Producer, Consumer, Reader } from 'pulsar-client';
+import { InjectPulsar, Producer, Consumer, Reader } from '@dev5c32373043/nestjs-pulsar';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectPulsar('producer', 'myProducer')
+    @InjectPulsar('producer', 'my-producer')
     private readonly producer: Producer,
-    @InjectPulsar('consumer', 'myConsumer')
+    @InjectPulsar('consumer', 'my-consumer')
     private readonly consumer: Consumer,
-    @InjectPulsar('reader', 'myReader')
+    @InjectPulsar('reader', 'my-reader')
     private readonly reader: Reader,
   ) {}
 
-  async publishHelloPulsar() {
-    await this.producer.send({
-      data: Buffer.from('Hello, Pulsar'),
-    });
+  async publish(data: any) {
+    await this.producer.send({ data: Buffer.from(JSON.stringify(data)) });
+  }
+
+  async consume(timeout: number = 1000) {
+    const rawMessage = await this.consumer.receive(timeout); // timeout is optional
+    const data = JSON.parse(rawMessage.getData().toString());
+    await this.consumer.acknowledge(rawMessage);
+
+    return data;
+  }
+
+  async read() {
+    if (!this.reader.hasNext()) return;
+
+    const rawMessage = await this.reader.readNext();
+    const data = JSON.parse(rawMessage.getData().toString());
+
+    return data;
   }
 }
 ```
@@ -128,12 +124,19 @@ If you want to use the producer, consumer or reader outside of the module which 
 
 ```ts
 import { Module } from '@nestjs/common';
-import { PulsarModule } from 'nest-pulsar';
+import { PulsarModule } from '@dev5c32373043/nestjs-pulsar';
 
 @Module({
   imports: [
-    PulsarModule.forFeature('producer', 'myProducer', {
-      topic: 'myTopic',
+    PulsarModule.forFeature('producer', 'my-producer', {
+      topic: 'my-topic',
+    }),
+    PulsarModule.forFeature('consumer', 'my-consumer', {
+      topic: 'my-topic',
+      subscription: 'my-sub',
+    }),
+    PulsarModule.forFeature('reader', 'my-reader', {
+      topic: 'my-topic',
     }),
   ],
   exports: [PulsarModule],
@@ -147,7 +150,7 @@ You may want to pass your module options asynchronously instead of statically. I
 
 ```ts
 import { Module } from '@nestjs/common';
-import { PulsarModule } from 'nest-pulsar';
+import { PulsarModule } from '@dev5c32373043/nestjs-pulsar';
 
 @Module({
   imports: [
@@ -165,7 +168,7 @@ Our factory behaves like any other asynchronous provider (e.g., it can be async 
 
 ```ts
 import { Module } from '@nestjs/common';
-import { PulsarModule } from 'nest-pulsar';
+import { PulsarModule } from '@dev5c32373043/nestjs-pulsar';
 
 @Module({
   imports: [
@@ -187,7 +190,7 @@ Some projects require multiple pulsar clients. This can also be achieved with th
 
 ```ts
 import { Module } from '@nestjs/common';
-import { PulsarModule } from 'nest-pulsar';
+import { PulsarModule } from '@dev5c32373043/nestjs-pulsar';
 
 @Module({
   imports: [
@@ -198,7 +201,7 @@ import { PulsarModule } from 'nest-pulsar';
       {
         serviceUrl: 'pulsar://other.client:6650',
       },
-      'myOtherClient', // client name
+      'other-client', // client name
     ),
   ],
 })
@@ -213,7 +216,7 @@ If you are using `PulsarModule.forRootAsync()`, you have to also set the client 
 
 ```ts
 import { Module } from '@nestjs/common';
-import { PulsarModule } from 'nest-pulsar';
+import { PulsarModule } from '@dev5c32373043/nestjs-pulsar';
 
 @Module({
   imports: [
@@ -228,7 +231,7 @@ import { PulsarModule } from 'nest-pulsar';
           serviceUrl: 'pulsar://other.client:6650',
         }),
       },
-      'myOtherClient',
+      'other-client',
     ),
   ],
 })
@@ -239,14 +242,14 @@ export class AppModule {}
 
 When it comes to unit testing an application, we usually want to avoid making a real Pulsar connection, keeping our test suites independent and their execution process as fast as possible. But our classes might depend on producers, consumers or readears that are pulled that are created from the client instance. How do we handle that? The solution is to create mocks. In order to achieve that, we set up custom providers. Each registered producer, consumer or reader is automatically represented by an auto-generated token.
 
-The nest-pulsar package exposes the `getFeatureToken()` function which returns a prepared token based on a given feature type and name.
+The @dev5c32373043/nestjs-pulsar package exposes the `getFeatureToken()` function which returns a prepared token based on a given feature type and name.
 
 ```ts
 @Module({
   providers: [
     UsersService,
     {
-      provide: getFeatureToken('consumer', 'myConsumer'),
+      provide: getFeatureToken('consumer', 'my-consumer'),
       useValue: mockConsumer,
     },
   ],
