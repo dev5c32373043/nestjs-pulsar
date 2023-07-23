@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MessageId } from 'pulsar-client';
 import { PulsarModule } from '../../lib';
-import { MY_PRODUCER, MY_CONSUMER, MY_READER } from '../src/constants';
+import { MY_PRODUCER, MY_CONSUMER, MY_READER } from './constants';
 import { ConfigService } from './config.service';
 import { ConfigModule } from './config.module';
 import { AppController } from './app.controller';

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { MY_PRODUCER, MY_CONSUMER, MY_READER, MY_TOPIC, MY_SUBSCRIPTION } from '../src/constants';
+import { MY_PRODUCER, MY_CONSUMER, MY_READER, MY_TOPIC, MY_SUBSCRIPTION } from './constants';
 
 @Injectable()
 export class ConfigService {

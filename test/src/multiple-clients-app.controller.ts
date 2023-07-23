@@ -11,7 +11,7 @@ import {
   MY_CLIENT_READER,
   MY_CLIENT_MESSAGE,
   MULTIPLE_PUBSUB_RESPONSE,
-} from '../src/constants';
+} from './constants';
 
 @Controller()
 export class MultipleClientsAppController {

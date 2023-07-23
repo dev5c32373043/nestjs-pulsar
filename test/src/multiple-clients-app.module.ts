@@ -13,7 +13,7 @@ import {
   MY_CLIENT,
   MY_CLIENT_TOPIC,
   MY_CLIENT_SUBSCRIPTION,
-} from '../src/constants';
+} from './constants';
 import { MultipleClientsAppController } from './multiple-clients-app.controller';
 
 @Module({

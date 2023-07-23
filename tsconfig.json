@@ -12,5 +12,5 @@
     "skipLibCheck": true,
     "useUnknownInCatchVariables": false
   },
-  "include": ["lib/**/*", "tests/**/*"]
+  "include": ["lib/**/*", "test/**/*"]
 }

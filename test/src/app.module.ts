@@ -1,10 +1,14 @@
 import { Module } from '@nestjs/common';
 import { MessageId } from 'pulsar-client';
 import { PulsarModule } from '../../lib';
-import { MY_PRODUCER, MY_CONSUMER, MY_READER, MY_TOPIC, MY_SUBSCRIPTION } from '../src/constants';
+import { MY_PRODUCER, MY_CONSUMER, MY_READER, MY_TOPIC, MY_SUBSCRIPTION } from './constants';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
+    PulsarModule.forRoot({
+      serviceUrl: 'pulsar://localhost:6650',
+    }),
     PulsarModule.forFeature('producer', MY_PRODUCER, {
       topic: MY_TOPIC,
     }),
@@ -17,6 +21,6 @@ import { MY_PRODUCER, MY_CONSUMER, MY_READER, MY_TOPIC, MY_SUBSCRIPTION } from '
       startMessageId: MessageId.latest(),
     }),
   ],
-  exports: [PulsarModule],
+  controllers: [AppController],
 })
-export class OutsideFeaturesModule {}
+export class AppModule {}
