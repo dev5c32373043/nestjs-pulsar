@@ -8,7 +8,6 @@ import {
   OnApplicationShutdown,
   ValueProvider,
 } from '@nestjs/common';
-import { ModuleRef } from '@nestjs/core';
 import { Client, ClientConfig } from 'pulsar-client';
 import { getClientConfigToken, getClientToken } from './pulsar.utils';
 import { DEFAULT_CLIENT_NAME, PULSAR_CLIENT_NAME_TOKEN } from './pulsar.constants';
@@ -17,11 +16,11 @@ import { DEFAULT_CLIENT_NAME, PULSAR_CLIENT_NAME_TOKEN } from './pulsar.constant
 @Module({})
 export class PulsarCoreModule implements OnApplicationShutdown {
   private readonly logger = new Logger(PulsarCoreModule.name);
+  static readonly clients = new Map<string, Client>();
 
   constructor(
     @Inject(PULSAR_CLIENT_NAME_TOKEN)
     private readonly clientName: string,
-    private readonly moduleRef: ModuleRef,
   ) {}
 
   static forRoot(config: ClientConfig, clientName?: string): DynamicModule {
@@ -37,6 +36,8 @@ export class PulsarCoreModule implements OnApplicationShutdown {
       provide: clientToken,
       useValue: client,
     };
+
+    PulsarCoreModule.clients.set(clientToken, client);
 
     return {
       module: PulsarCoreModule,
@@ -68,6 +69,7 @@ export class PulsarCoreModule implements OnApplicationShutdown {
       inject: [clientConfigToken],
       useFactory: (config: ClientConfig) => {
         const client = new Client(config);
+        PulsarCoreModule.clients.set(clientToken, client);
         return client;
       },
     };
@@ -81,7 +83,10 @@ export class PulsarCoreModule implements OnApplicationShutdown {
   }
 
   async onApplicationShutdown() {
-    const client = this.moduleRef.get<Client>(getClientToken(this.clientName));
+    const client = PulsarCoreModule.clients.get(getClientToken(this.clientName));
+    if (!client) return;
+
+    this.logger.log(`Closing ${this.clientName} connection`);
 
     try {
       await client.close();
