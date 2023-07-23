@@ -1,3 +1,5 @@
+export * from 'pulsar-client';
+
 export * from './pulsar.module';
 export * from './pulsar.decorators';
 export * from './pulsar.utils';
