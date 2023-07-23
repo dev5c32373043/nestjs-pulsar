@@ -11,10 +11,7 @@ import {
 import { ModuleRef } from '@nestjs/core';
 import { Client, ClientConfig } from 'pulsar-client';
 import { getClientConfigToken, getClientToken } from './pulsar.utils';
-import {
-  DEFAULT_CLIENT_NAME,
-  PULSAR_CLIENT_NAME_TOKEN,
-} from './pulsar.constants';
+import { DEFAULT_CLIENT_NAME, PULSAR_CLIENT_NAME_TOKEN } from './pulsar.constants';
 
 @Global()
 @Module({})
@@ -49,8 +46,7 @@ export class PulsarCoreModule implements OnApplicationShutdown {
   }
 
   static forRootAsync(
-    options: Pick<FactoryProvider<ClientConfig>, 'inject' | 'useFactory'> &
-      Pick<DynamicModule, 'imports'>,
+    options: Pick<FactoryProvider<ClientConfig>, 'inject' | 'useFactory'> & Pick<DynamicModule, 'imports'>,
     clientName?: string,
   ): DynamicModule {
     const clientToken = getClientToken(clientName);

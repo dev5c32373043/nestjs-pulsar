@@ -3,7 +3,6 @@ import { Consumer, Producer, Reader } from 'pulsar-client';
 import { InjectPulsar } from '../../lib';
 import { MY_PRODUCER, MY_CONSUMER, MY_READER, MESSAGE } from './constants';
 
-
 @Controller()
 export class AppController {
   constructor(
@@ -12,8 +11,8 @@ export class AppController {
     @InjectPulsar('consumer', MY_CONSUMER)
     private readonly consumer: Consumer,
     @InjectPulsar('reader', MY_READER)
-    private readonly reader: Reader
-  ) { }
+    private readonly reader: Reader,
+  ) {}
 
   @Get('/pubsub')
   async pubSub() {
@@ -31,11 +30,7 @@ export class AppController {
 
     await this.consumer.acknowledge(messageFromConsumer);
 
-    await Promise.all([
-      this.producer.close(),
-      this.consumer.close(),
-      this.reader.close(),
-    ]);
+    await Promise.all([this.producer.close(), this.consumer.close(), this.reader.close()]);
 
     return {
       fromConsumer,

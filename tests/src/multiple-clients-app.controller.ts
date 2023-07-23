@@ -1,8 +1,17 @@
 import { Controller, Get } from '@nestjs/common';
 import { Consumer, Producer, Reader } from 'pulsar-client';
 import { InjectPulsar } from '../../lib';
-import { MY_PRODUCER, MY_CONSUMER, MY_READER, MESSAGE, MY_CLIENT_PRODUCER, MY_CLIENT_CONSUMER, MY_CLIENT_READER, MY_CLIENT_MESSAGE, MULTIPLE_PUBSUB_RESPONSE } from '../src/constants';
-
+import {
+  MY_PRODUCER,
+  MY_CONSUMER,
+  MY_READER,
+  MESSAGE,
+  MY_CLIENT_PRODUCER,
+  MY_CLIENT_CONSUMER,
+  MY_CLIENT_READER,
+  MY_CLIENT_MESSAGE,
+  MULTIPLE_PUBSUB_RESPONSE,
+} from '../src/constants';
 
 @Controller()
 export class MultipleClientsAppController {
@@ -18,8 +27,8 @@ export class MultipleClientsAppController {
     @InjectPulsar('consumer', MY_CLIENT_CONSUMER)
     private readonly myClientConsumer: Consumer,
     @InjectPulsar('reader', MY_CLIENT_READER)
-    private readonly myClientReader: Reader
-  ) { }
+    private readonly myClientReader: Reader,
+  ) {}
 
   private async defaultPubSub() {
     await this.defaultProducer.send({
@@ -36,11 +45,7 @@ export class MultipleClientsAppController {
 
     await this.defaultConsumer.acknowledge(messageFromConsumer);
 
-    await Promise.all([
-      this.defaultProducer.close(),
-      this.defaultConsumer.close(),
-      this.defaultReader.close(),
-    ]);
+    await Promise.all([this.defaultProducer.close(), this.defaultConsumer.close(), this.defaultReader.close()]);
 
     return {
       fromConsumer,
@@ -63,11 +68,7 @@ export class MultipleClientsAppController {
 
     await this.myClientConsumer.acknowledge(messageFromConsumer);
 
-    await Promise.all([
-      this.myClientProducer.close(),
-      this.myClientConsumer.close(),
-      this.myClientReader.close(),
-    ]);
+    await Promise.all([this.myClientProducer.close(), this.myClientConsumer.close(), this.myClientReader.close()]);
 
     return {
       fromConsumer,
@@ -77,10 +78,7 @@ export class MultipleClientsAppController {
 
   @Get('/pubsub')
   async pubSub(): Promise<typeof MULTIPLE_PUBSUB_RESPONSE> {
-    const [defaultPubSub, myClientPubSub] = await Promise.all([
-      this.defaultPubSub(),
-      this.myClientPubSub(),
-    ]);
+    const [defaultPubSub, myClientPubSub] = await Promise.all([this.defaultPubSub(), this.myClientPubSub()]);
 
     return {
       default: defaultPubSub,

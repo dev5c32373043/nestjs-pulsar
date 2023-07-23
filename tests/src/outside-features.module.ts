@@ -1,13 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MessageId } from 'pulsar-client';
 import { PulsarModule } from '../../lib';
-import {
-  MY_PRODUCER,
-  MY_CONSUMER,
-  MY_READER,
-  MY_TOPIC,
-  MY_SUBSCRIPTION,
-} from '../src/constants';
+import { MY_PRODUCER, MY_CONSUMER, MY_READER, MY_TOPIC, MY_SUBSCRIPTION } from '../src/constants';
 
 @Module({
   imports: [

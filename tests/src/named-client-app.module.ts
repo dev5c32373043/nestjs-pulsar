@@ -4,14 +4,13 @@ import { PulsarModule } from '../../lib';
 import { MY_PRODUCER, MY_CONSUMER, MY_READER, MY_TOPIC, MY_SUBSCRIPTION, MY_CLIENT } from '../src/constants';
 import { AppController } from './app.controller';
 
-
 @Module({
   imports: [
     PulsarModule.forRoot(
       {
         serviceUrl: 'pulsar://localhost:6650',
       },
-      MY_CLIENT
+      MY_CLIENT,
     ),
     PulsarModule.forFeature(
       'producer',
@@ -19,7 +18,7 @@ import { AppController } from './app.controller';
       {
         topic: MY_TOPIC,
       },
-      MY_CLIENT
+      MY_CLIENT,
     ),
     PulsarModule.forFeature(
       'consumer',
@@ -28,7 +27,7 @@ import { AppController } from './app.controller';
         subscription: MY_SUBSCRIPTION,
         topic: MY_TOPIC,
       },
-      MY_CLIENT
+      MY_CLIENT,
     ),
     PulsarModule.forFeature(
       'reader',
@@ -37,10 +36,9 @@ import { AppController } from './app.controller';
         topic: MY_TOPIC,
         startMessageId: MessageId.latest(),
       },
-      MY_CLIENT
+      MY_CLIENT,
     ),
   ],
   controllers: [AppController],
 })
-export class NamedClientAppModule {
-}
+export class NamedClientAppModule {}

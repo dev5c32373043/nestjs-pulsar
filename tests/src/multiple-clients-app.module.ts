@@ -1,9 +1,20 @@
 import { Module } from '@nestjs/common';
 import { MessageId } from 'pulsar-client';
 import { PulsarModule } from '../../lib';
-import { MY_PRODUCER, MY_CONSUMER, MY_READER, MY_TOPIC, MY_SUBSCRIPTION, MY_CLIENT_PRODUCER, MY_CLIENT_CONSUMER, MY_CLIENT_READER, MY_CLIENT, MY_CLIENT_TOPIC, MY_CLIENT_SUBSCRIPTION } from '../src/constants';
+import {
+  MY_PRODUCER,
+  MY_CONSUMER,
+  MY_READER,
+  MY_TOPIC,
+  MY_SUBSCRIPTION,
+  MY_CLIENT_PRODUCER,
+  MY_CLIENT_CONSUMER,
+  MY_CLIENT_READER,
+  MY_CLIENT,
+  MY_CLIENT_TOPIC,
+  MY_CLIENT_SUBSCRIPTION,
+} from '../src/constants';
 import { MultipleClientsAppController } from './multiple-clients-app.controller';
-
 
 @Module({
   imports: [
@@ -25,7 +36,7 @@ import { MultipleClientsAppController } from './multiple-clients-app.controller'
       {
         serviceUrl: 'pulsar://localhost:6650',
       },
-      MY_CLIENT
+      MY_CLIENT,
     ),
     PulsarModule.forFeature(
       'producer',
@@ -33,7 +44,7 @@ import { MultipleClientsAppController } from './multiple-clients-app.controller'
       {
         topic: MY_CLIENT_TOPIC,
       },
-      MY_CLIENT
+      MY_CLIENT,
     ),
     PulsarModule.forFeature(
       'consumer',
@@ -42,7 +53,7 @@ import { MultipleClientsAppController } from './multiple-clients-app.controller'
         subscription: MY_CLIENT_SUBSCRIPTION,
         topic: MY_CLIENT_TOPIC,
       },
-      MY_CLIENT
+      MY_CLIENT,
     ),
     PulsarModule.forFeature(
       'reader',
@@ -51,10 +62,9 @@ import { MultipleClientsAppController } from './multiple-clients-app.controller'
         topic: MY_CLIENT_TOPIC,
         startMessageId: MessageId.latest(),
       },
-      MY_CLIENT
+      MY_CLIENT,
     ),
   ],
   controllers: [MultipleClientsAppController],
 })
-export class MultipleClientsAppModule {
-}
+export class MultipleClientsAppModule {}

@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { MY_PRODUCER, MY_CONSUMER, MY_READER, MY_TOPIC, MY_SUBSCRIPTION } from '../src/constants';
 
-
 @Injectable()
 export class ConfigService {
   serviceUrl = 'pulsar://localhost:6650';

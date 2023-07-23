@@ -63,9 +63,7 @@ describe('Pulsar', () => {
       server = app.getHttpServer();
       await app.init();
 
-      await request(server)
-        .get('/pubsub')
-        .expect(200, MULTIPLE_PUBSUB_RESPONSE);
+      await request(server).get('/pubsub').expect(200, MULTIPLE_PUBSUB_RESPONSE);
     });
 
     it('should support re-exporting Producer, Consumer or Client from outside module', async () => {

@@ -4,7 +4,6 @@ import { PulsarModule } from '../../lib';
 import { MY_PRODUCER, MY_CONSUMER, MY_READER, MY_TOPIC, MY_SUBSCRIPTION } from '../src/constants';
 import { AppController } from './app.controller';
 
-
 @Module({
   imports: [
     PulsarModule.forRoot({
@@ -24,5 +23,4 @@ import { AppController } from './app.controller';
   ],
   controllers: [AppController],
 })
-export class AppModule {
-}
+export class AppModule {}

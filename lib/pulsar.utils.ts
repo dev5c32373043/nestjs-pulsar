@@ -1,16 +1,12 @@
-import { DEFAULT_CLIENT_NAME } from "./pulsar.constants";
+import { DEFAULT_CLIENT_NAME } from './pulsar.constants';
 
 export type FeatureType = 'consumer' | 'producer' | 'reader';
 
-export function getClientToken(
-  clientName: string = DEFAULT_CLIENT_NAME,
-): string {
+export function getClientToken(clientName: string = DEFAULT_CLIENT_NAME): string {
   return `${clientName}PulsarClient`;
 }
 
-export function getClientConfigToken(
-  clientName: string = DEFAULT_CLIENT_NAME,
-): string {
+export function getClientConfigToken(clientName: string = DEFAULT_CLIENT_NAME): string {
   return getClientToken(clientName) + 'Config';
 }
 

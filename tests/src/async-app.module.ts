@@ -6,7 +6,6 @@ import { ConfigService } from './config.service';
 import { ConfigModule } from './config.module';
 import { AppController } from './app.controller';
 
-
 @Module({
   imports: [
     PulsarModule.forRootAsync({
@@ -42,5 +41,4 @@ import { AppController } from './app.controller';
   ],
   controllers: [AppController],
 })
-export class AsyncAppModule {
-}
+export class AsyncAppModule {}
